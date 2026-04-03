@@ -11,6 +11,7 @@ env:
   ECR_REPOSITORY: xebia/my-node-app            # change to your ECR repo name
   ECS_CLUSTER: victorious-flamingo-cub5ae           # change to your ECS cluster name
   ECS_SERVICE: my-node-app-demo-d067           # change to your ECS service name
+  ECS_TASK_DEFINITION: victorious-flamingo-cub5ae-my-node-app-demo-d067
   CONTAINER_NAME: Main          # must match name in your task definition
 
 jobs:
@@ -29,7 +30,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
 
       - name: Install dependencies
@@ -103,7 +104,7 @@ jobs:
       - name: Download current task definition
         run: |
           aws ecs describe-task-definition \
-            --task-definition ${{ env.ECS_SERVICE }} \
+            --task-definition ${{ env.ECS_TASK_DEFINITION }} \
             --query taskDefinition \
             > task-definition.json
 
